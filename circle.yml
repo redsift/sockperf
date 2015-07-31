@@ -12,8 +12,8 @@ checkout:
     
 dependencies:
   override:
-    - mkdir ./root
-    - cd sockperf && ./autogen.sh && ./configure --prefix=./root && make && make install 
+    - mkdir -p ./root
+    - cd sockperf && ./autogen.sh && ./configure --prefix=../root && make && make install 
     - docker info
     - |
         sudo docker build -t $CONTAINER_NAME .
