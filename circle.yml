@@ -11,9 +11,12 @@ checkout:
     - git submodule update --init
     
 dependencies:
+  pre:
+    - sudo apt-get update; sudo apt-get install automake
   override:
     - mkdir -p ./root
-    - cd sockperf && ./autogen.sh && ./configure --prefix=../root && make && make install 
+    - cd sockperf && ./autogen.sh && ./configure --prefix=${CIRCLE_ARTIFACTS}/usr && make && make install 
+    - cp -r ${CIRCLE_ARTIFACTS}/* ./root/
     - docker info
     - |
         sudo docker build -t $CONTAINER_NAME .
