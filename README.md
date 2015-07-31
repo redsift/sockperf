@@ -31,7 +31,7 @@ You should then see it listed via
 
 	ip route
 	
-You will need to make this persistent on your distro.
+You will need to make this persistent on your distro e.g. an entry in `/etc/sysconfig/network-scripts/route-eth0`.
 	
 # iptables/firewalld
 
