@@ -1,0 +1,3 @@
+[submodule "sockperf"]
+	path = sockperf
+	url = https://github.com/Mellanox/sockperf

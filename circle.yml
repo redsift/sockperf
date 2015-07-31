@@ -1,0 +1,34 @@
+machine:
+  environment:
+    CONTAINER_NAME: quay.io/redsift/sockpref
+  services:
+    - docker
+      
+checkout:
+  post:
+    - git fetch --tags
+    - git submodule sync
+    - git submodule update --init
+    
+dependencies:
+  override:
+    - mkdir ./root
+    - cd sockperf && ./autogen.sh && ./configure --prefix=./root && make && make install 
+    - docker info
+    - |
+        sudo docker build -t $CONTAINER_NAME .
+        VERSION=$(git describe --exact-match --tags 2>/dev/null || git rev-parse --short HEAD)
+        echo "Tagging as $CONTAINER_NAME:$VERSION"
+        docker tag $CONTAINER_NAME:latest $CONTAINER_NAME:$VERSION
+    
+test:
+  override:
+    - docker run -d $CONTAINER_NAME; sleep 10    
+    
+deployment:
+  prod:
+    branch: master
+    commands:
+      - docker login -e $QUAY_EMAIL -u $QUAY_USER -p $QUAY_PASS quay.io
+      - docker push $CONTAINER_NAME
+    
