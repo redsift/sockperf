@@ -1,6 +1,6 @@
 machine:
   environment:
-    CONTAINER_NAME: quay.io/redsift/sockpref
+    CONTAINER_NAME: quay.io/redsift/sockperf
   services:
     - docker
       
